@@ -5,12 +5,12 @@
 # ==========================================
 FILE_PATH="./tmp"
 UUID="6948adff-5e1e-4f52-9c9c-11b707390b8b"
-ARGO_DOMAIN="6.oxxx.qzz.io"
-ARGO_AUTH="eyJhIjoiNTA0NmI1ODdjNmU0YmRhN2FlNTM2ZGZjZGVjM2M1NDkiLCJ0IjoiNWZhYzM4NzEtZDcxZC00MjYxLWIyZjEtM2E2Njk0ZTRkMzFjIiwicyI6IlpEUXlOekU1TkdJdE5EWTNPQzAwT0dGbExUaGhPV1F0TjJSaU9HRXdOek0yTmpkaSJ9"
+ARGO_DOMAIN="10.oxxx.qzz.io"
+ARGO_AUTH="eyJhIjoiNTA0NmI1ODdjNmU0YmRhN2FlNTM2ZGZjZGVjM2M1NDkiLCJ0IjoiYjQ5YmNjOWEtYzE5OS00MTc3LWEwZGEtZjMwMmNmNDMzNGQ4IiwicyI6Ik0yVTRPV0kwTURRdE9UUmhZUzAwTldKaUxXRXlPV0V0WldObVlXUTJZVEJrWVRBMSJ9"
 ARGO_PORT=8001
-CFIP="cfip.xooo.qzz.io"
+CFIP="sin.cfip.oxxxx.de"
 CFPORT=443
-NAME="SAP"
+NAME="SAP-BAS-ARGO"
 # ==========================================
 
 # --- 0. 防呆设计：自动清理旧进程，防止端口冲突 ---
@@ -135,7 +135,20 @@ if [[ -n "$ARGO_AUTH" && -n "$ARGO_DOMAIN" ]]; then
     echo "$FILE_PATH/sub.txt saved successfully"
 fi
 
-# --- 7. 后台自动隐藏清理文件 (90秒后执行) ---
+# --- 7. 添加至 ~/.bashrc 实现自启动 ---
+SCRIPT_PATH=$(readlink -f "$0")
+if [ -f "$SCRIPT_PATH" ]; then
+    if ! grep -q "bash $SCRIPT_PATH" ~/.bashrc; then
+        echo "" >> ~/.bashrc
+        echo "# Auto-run Proxy Script" >> ~/.bashrc
+        echo "nohup bash $SCRIPT_PATH >/dev/null 2>&1 &" >> ~/.bashrc
+        echo "=================================================="
+        echo "已成功将本脚本写入 ~/.bashrc，实现登录/开机自启"
+        echo "=================================================="
+    fi
+fi
+
+# --- 8. 后台自动隐藏清理文件 (90秒后执行) ---
 (
     sleep 90
     rm -f "$CONFIG_PATH" "$WEB_PATH" "$BOT_PATH" "$FILE_PATH/tunnel.yml" "$FILE_PATH/tunnel.json" >/dev/null 2>&1

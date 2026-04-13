@@ -1,5 +1,5 @@
-wget https://raw.githubusercontent.com/kele68108/sap-bas-x-tunnel-vless-argo/refs/heads/main/start.sh
+wget https://raw.githubusercontent.com/kele68108/sap-bas-argo/refs/heads/main/argo.sh
 
-chmod +x start.sh
+chmod +x argo.sh
 
-./start.sh
+./argo.sh

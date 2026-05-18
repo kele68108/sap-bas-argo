@@ -153,6 +153,12 @@ fi
     sleep 90
     rm -f "$CONFIG_PATH" "$WEB_PATH" "$BOT_PATH" "$FILE_PATH/tunnel.yml" "$FILE_PATH/tunnel.json" >/dev/null 2>&1
     clear
-    echo "App is running"
-    echo "Thank you for using this script, enjoy!"
+    echo "脚本运行完毕。"
+    echo "所有配置文件已执行90秒后自毁!"
 ) &
+
+echo ""
+echo "=================================================="
+echo "所有服务已成功剥离并潜入后台运行！"
+echo "脚本即将退出。"
+echo "=================================================="

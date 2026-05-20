@@ -1,9 +1,23 @@
 #!/usr/bin/env bash
-
+# ==========================================
+# 卸载逻辑：运行 bash argo.sh uninstall 触发
+# ==========================================
+if [ "$1" == "uninstall" ]; then
+    echo "[SYSTEM] 开始执行 argo 卸载程序..."
+    # 1. 杀掉占用 8001, 3001, 3002 TCP 端口的进程
+    fuser -k -9 8001/tcp 3001/tcp 3002/tcp >/dev/null 2>&1
+    lsof -ti:8001,3001,3002 | xargs kill -9 >/dev/null 2>&1
+    # 2. 清理隔离目录
+    rm -rf ./tmp_argo >/dev/null 2>&1
+    # 3. 抹除 ~/.bashrc 中的自启项
+    sed -i '/argo.sh/d' ~/.bashrc
+    echo "[SYSTEM] 卸载完成！argo 已彻底从系统中清除。"
+    exit 0
+fi
 # ==========================================
 # 用户配置区 (请直接修改引号内的变量)
 # ==========================================
-FILE_PATH="./tmp"
+FILE_PATH="./tmp_argo"
 UUID="6948adff-5e1e-4f52-9c9c-11b707390b8b"
 ARGO_DOMAIN="ampere.abp.cc.cd"
 ARGO_AUTH="eyJhIjoiMDhjYTM0ZTI3MDEyYmQ2MzIzMDBjODQ3Y2Q1NzczNzYiLCJ0IjoiYjAwMmFhNTktNWQxYy00MmJlLWEwNTctZGVjY2VhMTUxMGIyIiwicyI6Ik9UYzVOMlpoTURBdE1tRmhPQzAwWkRjMUxXSmpNV1l0WXpRM01qVTVOek5qTkdFeCJ9"
@@ -161,4 +175,5 @@ echo ""
 echo "=================================================="
 echo "所有服务已成功剥离并潜入后台运行！"
 echo "脚本即将退出。"
+echo "脚本卸载命令 bash argo.sh uninstall"
 echo "=================================================="
